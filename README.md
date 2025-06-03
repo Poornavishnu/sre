@@ -143,9 +143,9 @@ if its up we see {"message":"Metrics stored successfully"}
 
 From edge device if its sending the metrics we see this error for the influxDB or the api server is stopped. 
 
-
+```
 {"timestamp": "2025-06-02T17:34:58.033780+00:00", "event": "InfluxDB error", "status": "FAIL", "data": "HTTPConnectionPool(host='localhost', port=8086): Max retries exceeded with url: /write?db=metrics (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7b810070bdf0>: Failed to establish a new connection: [Errno 111] Connection refused'))"}
-
+```
 We can troubleshoot the error like this identifying its influx issue.
 
 
