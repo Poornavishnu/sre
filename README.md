@@ -61,8 +61,9 @@ History and health endpoints
 Simulated InfluxDB failures
 
 Run with:
+```
 pytest unit_test.py -v
-
+```
 ## Deployment
 
 Systemd Setup
@@ -97,7 +98,7 @@ Minimal memory footprint on edge devices
 
 
 
-### Flask_api server Troubleshoot
+# Flask_api server Troubleshoot
 ```
 location: /home/ubuntu/edge-server
 logs: /home/ubuntu/edge-server/logs/api.log
@@ -109,7 +110,6 @@ start/stop/status - check
 sudo systemctl stop api_server
 sudo systemctl start api_server
 sudo systemctl status api_server
-
 ```
 
 Flask_api server logs we see for post from edge device.
@@ -124,8 +124,6 @@ Flask_api server logs we see for post from edge device.
 {"timestamp": "2025-06-02T17:25:44.231463+00:00", "event": "INFLUX RESPONSE", "status": "OK", "data": {"status_code": 204, "text": ""}}
 {"timestamp": "2025-06-02T17:25:44.232254+00:00", "event": "POST /metrics", "status": "OK", "data": {"device_id": "edge-4a47aae248a3", "hostname": "MacBookAir", "cpu_total": 27.8, "cpu_per_core": [33.3, 35.3, 28.0, 24.0, 17.6, 4.1, 3.9, 0.0], "memory_percent": 81.1, "disk_percent": 38.1, "tags": {"location": "store-101", "zone": "east"}}}
 ```
-
-
 
 
 If the InfluxDB is down we get this error  “{"error":"Failed to reach InfluxDB"}
@@ -146,6 +144,7 @@ From edge device if its sending the metrics we see this error for the influxDB o
 ```
 {"timestamp": "2025-06-02T17:34:58.033780+00:00", "event": "InfluxDB error", "status": "FAIL", "data": "HTTPConnectionPool(host='localhost', port=8086): Max retries exceeded with url: /write?db=metrics (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7b810070bdf0>: Failed to establish a new connection: [Errno 111] Connection refused'))"}
 ```
+
 We can troubleshoot the error like this identifying its influx issue.
 
 
@@ -161,7 +160,9 @@ this is for api_server issue
 [ERROR] 2025-06-02T17:41:26.499108+00:00: All cloud push attempts failed
 ^CTraceback (most recent call last): 
 ```
+
 this is for InfluxDB issue 
+
 ```
 {"timestamp": "2025-06-02T17:34:51.583277+00:00", "device_id": "edge-4a47aae248a3", "level": "INFO", "device_type": "edge-node", "metrics": {"timestamp": "2025-06-02T17:34:50.576508+00:00", "hostname": "Vishnus-Mac.local", "cpu_total": 15.7, "cpu_per_core": [31.4, 26.0, 24.0, 24.0, 0.0, 0.0, 0.0, 0.0], "memory_percent": 80.7, "memory_used": 3010101248, "memory_total": 8589934592, "disk_percent": 38.5, "disk_used": 14836686848, "disk_total": 245107195904, "heartbeat": 1}, "tags": {"location": "store-101", "zone": "east"}}
 {"timestamp": "2025-06-02T17:34:51.682385+00:00", "device_id": "edge-4a47aae248a3", "level": "ERROR", "message": "Cloud push attempt 1 failed: 500 Server Error: INTERNAL SERVER ERROR for url: http://34.229.115.74:5001/metrics"}
@@ -175,7 +176,7 @@ this is for InfluxDB issue
 
 
 
-### InFLuxDB Troubleshooting
+# InFLuxDB Troubleshooting
 ```
 sudo systemctl status influxdb
 ```
@@ -183,22 +184,24 @@ sudo systemctl status influxdb
 Should say active (running)
 
 
-If not, run: sudo systemctl start influxdb
-
-
+If not, run: 
 ```
+sudo systemctl start influxdb
 sudo journalctl -u influxdb -n 100 --no-pager
 
 ```
 To access Influx 
 
-on linux just type - influx
+on linux just type - 
 ```
+influx
+
 SHOW DATABASES;
 USE metrics;
 SHOW MEASUREMENTS;
 SELECT * FROM system_metrics ORDER BY time DESC LIMIT 5;
 ```
+
 ![image](https://github.com/user-attachments/assets/b8da8ae3-a38b-4f92-a964-8db2d0572a0e)
 
 
