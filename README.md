@@ -79,7 +79,7 @@ pip install -r requirements.txt
 
 -Secure tag escaping for InfluxDB compliance
 -ENV var fallback for API URL and DB config
---Full test suite with mocked external calls
+-Full test suite with mocked external calls
 Minimal memory footprint on edge devices
 
 ########################################################
@@ -87,7 +87,7 @@ Minimal memory footprint on edge devices
 
 
 ### Flask_api server Troubleshoot
-
+```
 location: /home/ubuntu/edge-server
 logs: /home/ubuntu/edge-server/logs/api.log
 
@@ -99,7 +99,7 @@ sudo systemctl stop api_server
 sudo systemctl start api_server
 sudo systemctl status api_server
 
-
+```
 
 Flask_api server logs we see for post from edge device.
 
@@ -165,9 +165,9 @@ this is for InfluxDB issue
 
 
 ### InFLuxDB Troubleshooting
-
+```
 sudo systemctl status influxdb
-
+```
 
 Should say active (running)
 
@@ -175,19 +175,19 @@ Should say active (running)
 If not, run: sudo systemctl start influxdb
 
 
-
+```
 sudo journalctl -u influxdb -n 100 --no-pager
 
-
+```
 To access Influx 
 
 on linux just type - influx
-
+```
 SHOW DATABASES;
 USE metrics;
 SHOW MEASUREMENTS;
 SELECT * FROM system_metrics ORDER BY time DESC LIMIT 5;
-
+```
 ![image](https://github.com/user-attachments/assets/b8da8ae3-a38b-4f92-a964-8db2d0572a0e)
 
 
@@ -196,8 +196,9 @@ If you see your data coming in, InfluxDB is receiving metrics correctly.
 
 To check disk usage 
 
-
+```
 sudo du -sh /var/lib/influxdb
 
 status - curl -I http://localhost:8086/ping
 
+```
