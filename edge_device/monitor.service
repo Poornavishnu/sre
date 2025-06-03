@@ -1,0 +1,14 @@
+[Unit]
+Description=Edge Monitoring Agent
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/edge_monitor_bundle/monitor.py
+WorkingDirectory=/opt/edge_monitor_bundle
+Restart=always
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+
+
