@@ -119,11 +119,11 @@ Flask_api server logs we see for post from edge device.
 ![image](https://github.com/user-attachments/assets/001c8612-724c-4692-b95a-38d3d6bd2a45)
 
 
-
+```
 {"timestamp": "2025-06-02T17:25:44.225076+00:00", "event": "INFLUX LINE", "status": "OK", "data": {"line": "system_metrics,location=store-101,zone=east,device_id=edge-4a47aae248a3,host=MacBookAir,device_type=unknown cpu=27.8,memory=81.1,disk=38.1,memory_total=8589934592,memory_used=3232989184,disk_total=245107195904,disk_used=14836686848,heartbeat=1,cpu_core_0=33.3,cpu_core_1=35.3,cpu_core_2=28.0,cpu_core_3=24.0,cpu_core_4=17.6,cpu_core_5=4.1,cpu_core_6=3.9,cpu_core_7=0.0"}}
 {"timestamp": "2025-06-02T17:25:44.231463+00:00", "event": "INFLUX RESPONSE", "status": "OK", "data": {"status_code": 204, "text": ""}}
 {"timestamp": "2025-06-02T17:25:44.232254+00:00", "event": "POST /metrics", "status": "OK", "data": {"device_id": "edge-4a47aae248a3", "hostname": "MacBookAir", "cpu_total": 27.8, "cpu_per_core": [33.3, 35.3, 28.0, 24.0, 17.6, 4.1, 3.9, 0.0], "memory_percent": 81.1, "disk_percent": 38.1, "tags": {"location": "store-101", "zone": "east"}}}
-
+```
 
 
 
@@ -153,22 +153,22 @@ we see this log at the edge-device logs as we enables 3 retries
 
 this is for api_server issue 
 
-
+```
 [edge-4a47aae248a3] Metrics collected at 2025-06-02T17:41:20.367836+00:00
 [ERROR] 2025-06-02T17:41:20.409992+00:00: Cloud push attempt 1 failed: HTTPConnectionPool(host='34.229.115.74', port=5001): Max retries exceeded with url: /metrics (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x102681cd0>: Failed to establish a new connection: [Errno 61] Connection refused'))
 [ERROR] 2025-06-02T17:41:22.459507+00:00: Cloud push attempt 2 failed: HTTPConnectionPool(host='34.229.115.74', port=5001): Max retries exceeded with url: /metrics (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x1026823f0>: Failed to establish a new connection: [Errno 61] Connection refused'))
 [ERROR] 2025-06-02T17:41:26.498968+00:00: Cloud push attempt 3 failed: HTTPConnectionPool(host='34.229.115.74', port=5001): Max retries exceeded with url: /metrics (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x10263b530>: Failed to establish a new connection: [Errno 61] Connection refused'))
 [ERROR] 2025-06-02T17:41:26.499108+00:00: All cloud push attempts failed
 ^CTraceback (most recent call last): 
-
+```
 this is for InfluxDB issue 
-
+```
 {"timestamp": "2025-06-02T17:34:51.583277+00:00", "device_id": "edge-4a47aae248a3", "level": "INFO", "device_type": "edge-node", "metrics": {"timestamp": "2025-06-02T17:34:50.576508+00:00", "hostname": "Vishnus-Mac.local", "cpu_total": 15.7, "cpu_per_core": [31.4, 26.0, 24.0, 24.0, 0.0, 0.0, 0.0, 0.0], "memory_percent": 80.7, "memory_used": 3010101248, "memory_total": 8589934592, "disk_percent": 38.5, "disk_used": 14836686848, "disk_total": 245107195904, "heartbeat": 1}, "tags": {"location": "store-101", "zone": "east"}}
 {"timestamp": "2025-06-02T17:34:51.682385+00:00", "device_id": "edge-4a47aae248a3", "level": "ERROR", "message": "Cloud push attempt 1 failed: 500 Server Error: INTERNAL SERVER ERROR for url: http://34.229.115.74:5001/metrics"}
 {"timestamp": "2025-06-02T17:34:53.782047+00:00", "device_id": "edge-4a47aae248a3", "level": "ERROR", "message": "Cloud push attempt 2 failed: 500 Server Error: INTERNAL SERVER ERROR for url: http://34.229.115.74:5001/metrics"}
 {"timestamp": "2025-06-02T17:34:57.896067+00:00", "device_id": "edge-4a47aae248a3", "level": "ERROR", "message": "Cloud push attempt 3 failed: 500 Server Error: INTERNAL SERVER ERROR for url: http://34.229.115.74:5001/metrics"}
 {"timestamp": "2025-06-02T17:34:57.896656+00:00", "device_id": "edge-4a47aae248a3", "level": "ERROR", "message": "All cloud push attempts failed"}
-
+```
 
 
 #############################################################
