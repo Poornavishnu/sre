@@ -1,18 +1,18 @@
-Edge Monitoring Agent & API Server
+### Edge Monitoring Agent & API Server
 
 This project implements a Python-based API server for receiving and storing edge device system metrics. The metrics are pushed in real-time from Linux-based agents and stored in InfluxDB, making them available for visualization (e.g., via Grafana).
 
 
-Overview
+## Overview
 
-Flask API server with endpoints for metrics ingestion, health, and history
-Structured JSON logging with rotating log files
-Rate-limited with flask-limiter (10 requests/min per IP)
-Metrics pushed in InfluxDB line protocol
-EC2-hosted server configured with systemd for persistent service management
+-Flask API server with endpoints for metrics ingestion, health, and history
+-Structured JSON logging with rotating log files
+-Rate-limited with flask-limiter (10 requests/min per IP)
+-Metrics pushed in InfluxDB line protocol
+-EC2-hosted server configured with systemd for persistent service management
 
 
-File Structure
+### File Structure
 
 edge-server/
 ── api_server.py               # Flask API server
@@ -37,7 +37,7 @@ Logs structured JSON with timestamps.
 Enforces rate limits (10/min) with flask-limiter.
 
 
-Testing
+## Testing
 
 Written with pytest
 
@@ -52,19 +52,20 @@ Simulated InfluxDB failures
 Run with:
 pytest unit_test.py -v
 
-Deployment
+## Deployment
 
 Systemd Setup
-
+```
 chmod +x deploy.sh
+
 ./deploy.sh
 
 sudo systemctl status api_server
-
+```
 Includes deploy.sh to install dependencies, move files, and enable services.
 Logging to logs/api.log with rotation.
 
-Requirements
+## Requirements
 
 Flask==3.1.1
 requests==2.32.3
@@ -74,23 +75,18 @@ pytest==8.3.5
 Install with:
 pip install -r requirements.txt
 
-Highlights
+## Highlights
 
-Secure tag escaping for InfluxDB compliance
-ENV var fallback for API URL and DB config
-Full test suite with mocked external calls
+-Secure tag escaping for InfluxDB compliance
+-ENV var fallback for API URL and DB config
+--Full test suite with mocked external calls
 Minimal memory footprint on edge devices
 
+########################################################
 
 
 
-Author
-Poornavishnu — Edge Signal SRE Project
-
-
-
-
-Flask_api server Troubleshoot
+### Flask_api server Troubleshoot
 
 location: /home/ubuntu/edge-server
 logs: /home/ubuntu/edge-server/logs/api.log
@@ -164,11 +160,11 @@ this is for InfluxDB issue
 
 
 
+#############################################################
 
 
 
-
-InFLuxDB
+### InFLuxDB Troubleshooting
 
 sudo systemctl status influxdb
 
