@@ -1,4 +1,7 @@
-### Edge Monitoring Agent & API Server
+
+
+
+# Edge Monitoring Agent & API Server
 
 This project implements a Python-based API server for receiving and storing edge device system metrics. The metrics are pushed in real-time from Linux-based agents and stored in InfluxDB, making them available for visualization (e.g., via Grafana).
 
@@ -12,7 +15,15 @@ This project implements a Python-based API server for receiving and storing ed
 -EC2-hosted server configured with systemd for persistent service management
 
 
-### File Structure
+## Grafana Dashboards
+
+![Screenshot 2025-06-02 at 6 31 14 PM](https://github.com/user-attachments/assets/4035c02c-7de2-419d-8f62-841ce7a07a19)
+
+![Screenshot 2025-06-02 at 6 31 42 PM](https://github.com/user-attachments/assets/60731f0a-7fdb-4676-86ae-e6bec5235f91)
+
+
+
+## File Structure
 
 edge-server/
 ── api_server.py               # Flask API server
@@ -202,3 +213,7 @@ sudo du -sh /var/lib/influxdb
 status - curl -I http://localhost:8086/ping
 
 ```
+
+
+
+
