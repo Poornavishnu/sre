@@ -1,0 +1,11 @@
+
+device_type: edge-node
+cloud_endpoint: "http://34.229.115.74:5001/metrics"
+metrics_interval: 10
+metrics_to_collect:
+  - cpu
+  - memory
+  - disk
+tags:
+  location: "store-101"
+  zone: "east"

@@ -1,0 +1,18 @@
+{
+  "device_id": "test-device-001",
+  "device_type": "edge-node",
+  "metrics": {
+    "timestamp": "2025-05-31T22:00:00",
+    "hostname": "Vishnus-Mac.local",
+    "cpu_total": 35.5,
+    "cpu_per_core": [45.0, 40.0, 30.0, 27.0, 0.0, 0.0, 0.0, 0.0],
+    "memory_percent": 82.0,
+    "memory_used": 3000000000,
+    "memory_total": 8589934592,
+    "disk_percent": 36.1,
+    "disk_used": 14836686848,
+    "disk_total": 245107195904
+  },
+  "alerts": ["High Memory usage: 82.0% > 80%"]
+}
+

@@ -1,0 +1,13 @@
+[Unit]
+Description=Flask API Server for SRE Monitoring
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/edge-server
+ExecStart=/usr/bin/python3 /home/ubuntu/edge-server/api_server.py
+Restart=always
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
