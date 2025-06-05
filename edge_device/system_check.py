@@ -1,86 +1,64 @@
+"""
+system_check.py
+
+Detect available system capabilities, such as CPU, memory, disk, temperature,
+battery.
+"""
+
 import psutil
-import shutil
-import subprocess
-import sys
+from typing import Dict
 
 
 class SystemCapabilities:
+    """
+    Detects system capabilities by attempting to access various hardware metrics
+    using psutil and system tools.
+    """
+
     def __init__(self):
-        self.capabilities = {
+        self.capabilities: Dict[str, bool] = {
             "cpu": True,
             "memory": True,
             "disk": True,
-            "temperature": False,
             "battery": False,
-            "gpu": False
         }
 
-    def detect(self):
+    def detect(self) -> Dict[str, bool]:
+        """
+        Runs all checks and returns a dictionary of capability flags.
+        """
         self._check_cpu()
         self._check_memory()
         self._check_disk()
-        self._check_temperature()
         self._check_battery()
-        self._check_gpu()
         return self.capabilities
 
     def _check_cpu(self):
+        """Check if CPU metrics can be accessed."""
         try:
             psutil.cpu_percent()
-        except Exception:
+        except psutil.Error:
             self.capabilities["cpu"] = False
 
     def _check_memory(self):
+        """Check if memory metrics can be accessed."""
         try:
             psutil.virtual_memory()
-        except Exception:
+        except psutil.Error:
             self.capabilities["memory"] = False
 
     def _check_disk(self):
+        """Check if disk usage metrics can be accessed."""
         try:
             psutil.disk_usage("/")
-        except Exception:
+        except psutil.Error:
             self.capabilities["disk"] = False
 
-    def _check_temperature(self):
-        try:
-            temps = psutil.sensors_temperatures()
-            if temps and any(temps.values()):
-                self.capabilities["temperature"] = True
-        except Exception:
-            self.capabilities["temperature"] = False
-
     def _check_battery(self):
+        """Check if battery metrics are available."""
         try:
             batt = psutil.sensors_battery()
             if batt is not None:
                 self.capabilities["battery"] = True
-        except Exception:
+        except (AttributeError, NotImplementedError, psutil.Error):
             self.capabilities["battery"] = False
-
-    def _check_gpu(self):
-        try:
-            result = subprocess.run(["nvidia-smi"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            if result.returncode == 0:
-                self.capabilities["gpu"] = True
-        except FileNotFoundError:
-            self.capabilities["gpu"] = False
-
-
-if __name__ == "__main__":
-    print("Checking system...")
-
-    if not shutil.which("python3"):
-        print("Python 3 not found!")
-        sys.exit(1)
-
-    try:
-        import psutil  # Reconfirm for CLI
-    except ImportError as e:
-        print(f"Missing Python dependency: {e}")
-        sys.exit(1)
-
-    print("Python dependencies found.")
-    detector = SystemCapabilities()
-    print("Detected capabilities:")
-    print(detector.detect())

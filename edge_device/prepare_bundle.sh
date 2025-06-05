@@ -16,8 +16,8 @@ PROJECT_DIR=$(pwd)
 echo "⚙️ Installing systemd service files..."
 
 # Replace ExecStart path with current directory
-sed "s|/home/pi/your_project|$PROJECT_DIR|g" monitor.service | sudo tee /etc/systemd/system/monitor.service > /dev/null
-sed "s|/home/pi/your_project|$PROJECT_DIR|g" api.service | sudo tee /etc/systemd/system/api.service > /dev/null
+sed "s|/home/pi/your_project|$PROJECT_DIR|g" monitor.service | sudo tee monitor.service > /dev/null
+sed "s|/home/pi/your_project|$PROJECT_DIR|g" api.service | sudo tee /api.service > /dev/null
 
 # Reload systemd to apply changes
 sudo systemctl daemon-reexec

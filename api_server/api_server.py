@@ -7,24 +7,11 @@ from datetime import datetime, timezone
 from collections import deque
 from logging.handlers import RotatingFileHandler
 
-import yaml
 import requests
 from flask import Flask, request, jsonify
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-
-
-class ConfigLoader:
-    """Loads YAML configuration for the API server."""
-
-    def __init__(self, config_path="config.yaml"):
-        self.config_path = config_path
-
-    def get_config(self):
-        """Load YAML configuration from file."""
-        with open(self.config_path, "r", encoding="utf-8") as f:
-            return yaml.safe_load(f)
-
+from config_loader import ConfigLoader
 
 class ApiServer:
     """Flask-based API server that receives metrics and pushes them to InfluxDB."""

@@ -7,106 +7,11 @@ for edge device monitoring.
 
 import platform
 import shutil
-import subprocess
 import sys
 from datetime import datetime, timezone
 from typing import Dict, List
-
+from system_check import SystemCapabilities 
 import psutil
-
-
-class SystemCapabilities:
-    """
-    Detect available system capabilities, such as CPU, memory, disk, temperature,
-    battery, and GPU support.
-    """
-
-    def __init__(self):
-        self.capabilities = {
-            "cpu": True,
-            "memory": True,
-            "disk": True,
-            "temperature": False,
-            "battery": False,
-            "gpu": False,
-        }
-
-    def detect(self) -> Dict[str, bool]:
-        """
-        Run all checks and return a dictionary indicating which metrics are supported.
-        """
-        self._check_cpu()
-        self._check_memory()
-        self._check_disk()
-        self._check_temperature()
-        self._check_battery()
-        self._check_gpu()
-        return self.capabilities
-
-    def _check_cpu(self):
-        """
-        Verify that CPU utilization metrics can be retrieved.
-        """
-        try:
-            psutil.cpu_percent()
-        except psutil.Error:
-            self.capabilities["cpu"] = False
-
-    def _check_memory(self):
-        """
-        Verify that memory utilization metrics can be retrieved.
-        """
-        try:
-            psutil.virtual_memory()
-        except psutil.Error:
-            self.capabilities["memory"] = False
-
-    def _check_disk(self):
-        """
-        Verify that disk usage metrics can be retrieved.
-        """
-        try:
-            psutil.disk_usage("/")
-        except psutil.Error:
-            self.capabilities["disk"] = False
-
-    def _check_temperature(self):
-        """
-        Check if temperature sensors are available.
-        """
-        try:
-            temps = psutil.sensors_temperatures()
-            if temps and any(temps.values()):
-                self.capabilities["temperature"] = True
-        except (AttributeError, NotImplementedError, psutil.Error):
-            self.capabilities["temperature"] = False
-
-    def _check_battery(self):
-        """
-        Check if battery information is available.
-        """
-        try:
-            batt = psutil.sensors_battery()
-            if batt is not None:
-                self.capabilities["battery"] = True
-        except (AttributeError, NotImplementedError, psutil.Error):
-            self.capabilities["battery"] = False
-
-    def _check_gpu(self):
-        """
-        Check if NVIDIA GPU is available by running 'nvidia-smi'.
-        """
-        try:
-            gpu_proc = subprocess.run(
-                ["nvidia-smi"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                check=False
-            )
-            if gpu_proc.returncode == 0:
-                self.capabilities["gpu"] = True
-        except FileNotFoundError:
-            self.capabilities["gpu"] = False
 
 
 class MetricCollector:
@@ -149,16 +54,6 @@ class MetricCollector:
             metrics["disk_used"] = disk.used
             metrics["disk_total"] = disk.total
 
-        if "temperature" in self.metrics_to_collect and self.capabilities.get("temperature", False):
-            try:
-                temps = psutil.sensors_temperatures()
-                metrics["temperature"] = {
-                    name: [sensor.current for sensor in readings]
-                    for name, readings in temps.items()
-                }
-            except (AttributeError, NotImplementedError, psutil.Error):
-                pass
-
         if "battery" in self.metrics_to_collect and self.capabilities.get("battery", False):
             try:
                 batt = psutil.sensors_battery()
@@ -167,10 +62,6 @@ class MetricCollector:
                     metrics["power_plugged"] = batt.power_plugged
             except (AttributeError, NotImplementedError, psutil.Error):
                 pass
-
-        if "gpu" in self.metrics_to_collect and self.capabilities.get("gpu", False):
-            metrics["gpu_status"] = "NVIDIA GPU detected"
-
         return metrics
 
 
@@ -200,7 +91,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     sample_config = {
-        "metrics_to_collect": ["cpu", "memory", "disk", "temperature", "battery", "gpu"],
+        "metrics_to_collect": ["cpu", "memory", "disk", "battery"],
     }
 
     agent = EdgeAgent(sample_config)

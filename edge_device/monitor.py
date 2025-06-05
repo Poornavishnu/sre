@@ -65,7 +65,7 @@ class MonitoringAgent:
         requested = self.settings["metrics_to_collect"]
         unsupported = [m for m in requested if not self.capabilities.get(m)]
         if unsupported:
-            self.logger.log(f"⚠️ Skipping unsupported metrics: {unsupported}", level="WARN")
+            self.logger.log(f" Skipping unsupported metrics: {unsupported}", level="WARN")
         return [m for m in requested if self.capabilities.get(m)]
 
     def _log_startup(self):

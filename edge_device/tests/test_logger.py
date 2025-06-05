@@ -8,10 +8,12 @@ import sys
 import os
 import json
 import tempfile
-from logger import Logger  # pylint: disable=import-error
 
-# Ensure the parent directory is on sys.path so we can import logger.py
+# ✅ Add project root to sys.path first
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from logger import Logger  # Must come after sys.path fix
+
 
 def test_logger_writes_json_entry():
     """
@@ -25,10 +27,10 @@ def test_logger_writes_json_entry():
         logger = Logger(log_path, device_id="test-device", print_stdout=False)
         logger.log("Test log entry")
 
-        # Open with utf-8 encoding explicitly
         with open(log_path, "r", encoding="utf-8") as f:
             line = f.readline()
             log_data = json.loads(line)
+
             assert log_data["message"] == "Test log entry"
             assert log_data["device_id"] == "test-device"
             assert log_data["level"] == "INFO"

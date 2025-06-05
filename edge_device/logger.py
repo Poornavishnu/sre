@@ -14,7 +14,7 @@ class Logger:
     A structured logger that writes logs to a rotating file and optionally prints to stdout.
     """
 
-    # pylint: disable=too-many-arguments,too-many-positional-args
+   
     def __init__(
         self,
         log_path,
